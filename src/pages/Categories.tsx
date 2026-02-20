@@ -3,11 +3,13 @@ import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { useCategories } from '../hooks/useCategories';
 import CategoryForm from '../components/CategoryForm';
 import type { Category } from '../types';
+import ConfirmDialog from '../components/ConfirmDialog';
 
 export default function Categories() {
   const { categories, addCategory, updateCategory, deleteCategory } = useCategories();
   const [showForm, setShowForm] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | undefined>();
+  const [deletingCategoryId, setDeletingCategoryId] = useState<number | null>(null);
 
   const handleSubmit = async (data: Omit<Category, 'id'>) => {
     if (editingCategory?.id) {
@@ -26,6 +28,13 @@ export default function Categories() {
   const handleClose = () => {
     setShowForm(false);
     setEditingCategory(undefined);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (deletingCategoryId !== null) {
+      await deleteCategory(deletingCategoryId);
+      setDeletingCategoryId(null);
+    }
   };
 
   const fixedCategories = categories.filter((c) => c.type === 'fixed');
@@ -54,7 +63,7 @@ export default function Categories() {
                 key={cat.id}
                 category={cat}
                 onEdit={handleEdit}
-                onDelete={deleteCategory}
+                onDelete={(id) => setDeletingCategoryId(id)}
               />
             ))}
           </div>
@@ -84,6 +93,15 @@ export default function Categories() {
           onSubmit={handleSubmit}
           onClose={handleClose}
           initialData={editingCategory}
+        />
+      )}
+
+      {deletingCategoryId !== null && (
+        <ConfirmDialog
+          title="Eliminar Categoría"
+          message="¿Estás seguro de querer eliminar esta categoría?"
+          onConfirm={handleDeleteConfirm}
+          onCancel={() => setDeletingCategoryId(null)}
         />
       )}
     </div>

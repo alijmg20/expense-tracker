@@ -7,12 +7,14 @@ import ExpenseList from '../components/ExpenseList';
 import MonthFilter from '../components/MonthFilter';
 import { formatCurrency, getMonthRange } from '../utils/dateUtils';
 import type { Expense } from '../types';
+import ConfirmDialog from '../components/ConfirmDialog';
 
 export default function Expenses() {
   const { expenses, addExpense, updateExpense, deleteExpense } = useExpenses();
   const { categories } = useCategories();
   const [showForm, setShowForm] = useState(false);
   const [editingExpense, setEditingExpense] = useState<Expense | undefined>();
+  const [deletingExpenseId, setDeletingExpenseId] = useState<number | null>(null);
 
   const now = new Date();
   const [month, setMonth] = useState(now.getMonth());
@@ -36,6 +38,13 @@ export default function Expenses() {
       await addExpense(data);
     }
     setEditingExpense(undefined);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (deletingExpenseId !== null) {
+      await deleteExpense(deletingExpenseId);
+      setDeletingExpenseId(null);
+    }
   };
 
   const handleEdit = (expense: Expense) => {
@@ -89,7 +98,7 @@ export default function Expenses() {
       <ExpenseList
         expenses={filteredExpenses}
         onEdit={handleEdit}
-        onDelete={deleteExpense}
+        onDelete={(id) => setDeletingExpenseId(id)}
       />
 
       {showForm && (
@@ -97,6 +106,15 @@ export default function Expenses() {
           onSubmit={handleSubmit}
           onClose={handleClose}
           initialData={editingExpense}
+        />
+      )}
+
+      {deletingExpenseId !== null && (
+        <ConfirmDialog
+          title="Eliminar Gasto"
+          message="¿Estás seguro de querer eliminar este gasto?"
+          onConfirm={handleDeleteConfirm}
+          onCancel={() => setDeletingExpenseId(null)}
         />
       )}
     </div>

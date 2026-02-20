@@ -62,7 +62,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold mb-4">Dashboard</h2>
+      <h2 className="text-lg font-semibold mb-4">Panel de Control</h2>
 
       <MonthFilter
         month={month}

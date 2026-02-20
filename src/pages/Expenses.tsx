@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { useExpenses } from '../hooks/useExpenses';
+import { useCategories } from '../hooks/useCategories';
 import ExpenseForm from '../components/ExpenseForm';
 import ExpenseList from '../components/ExpenseList';
 import MonthFilter from '../components/MonthFilter';
@@ -9,17 +10,21 @@ import type { Expense } from '../types';
 
 export default function Expenses() {
   const { expenses, addExpense, updateExpense, deleteExpense } = useExpenses();
+  const { categories } = useCategories();
   const [showForm, setShowForm] = useState(false);
   const [editingExpense, setEditingExpense] = useState<Expense | undefined>();
 
   const now = new Date();
   const [month, setMonth] = useState(now.getMonth());
   const [year, setYear] = useState(now.getFullYear());
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
 
   const { start, end } = getMonthRange(year, month);
   const filteredExpenses = expenses.filter((e) => {
     const d = new Date(e.date);
-    return d >= start && d <= end;
+    const inMonth = d >= start && d <= end;
+    const inCategory = selectedCategoryId === null || e.categoryId === selectedCategoryId;
+    return inMonth && inCategory;
   });
 
   const total = filteredExpenses.reduce((sum, e) => sum + e.amount, 0);
@@ -60,6 +65,17 @@ export default function Expenses() {
         year={year}
         onChange={(m, y) => { setMonth(m); setYear(y); }}
       />
+
+      <select
+        value={selectedCategoryId ?? ''}
+        onChange={(e) => setSelectedCategoryId(e.target.value ? Number(e.target.value) : null)}
+        className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4"
+      >
+        <option value="">Todas las categorías</option>
+        {categories.map((cat) => (
+          <option key={cat.id} value={cat.id}>{cat.name}</option>
+        ))}
+      </select>
 
       <div className="flex items-center justify-between mb-3 px-1">
         <span className="text-xs text-gray-400">

@@ -10,7 +10,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Expense Tracker',
+        name: 'Gastos Personales',
         short_name: 'Gastos',
         description: 'Control de gastos personal',
         theme_color: '#3b82f6',

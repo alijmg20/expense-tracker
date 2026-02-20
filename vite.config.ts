@@ -11,7 +11,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: {
         name: 'Expense Tracker',
-        short_name: 'Expenses',
+        short_name: 'Gastos',
         description: 'Control de gastos personal',
         theme_color: '#3b82f6',
         background_color: '#f9fafb',

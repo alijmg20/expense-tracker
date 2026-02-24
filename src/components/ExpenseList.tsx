@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Trash2, Copy } from 'lucide-react';
 import { useCategories } from '../hooks/useCategories';
 import { formatDate, formatCurrency } from '../utils/dateUtils';
 import type { Expense } from '../types';
@@ -7,9 +7,10 @@ interface ExpenseListProps {
   expenses: Expense[];
   onEdit: (expense: Expense) => void;
   onDelete: (id: number) => void;
+  onRepeat: (expense: Expense) => void;
 }
 
-export default function ExpenseList({ expenses, onEdit, onDelete }: ExpenseListProps) {
+export default function ExpenseList({ expenses, onEdit, onDelete, onRepeat }: ExpenseListProps) {
   const { allIncludingDeleted: categories } = useCategories();
 
   const getCategoryById = (id: number) => {
@@ -39,7 +40,7 @@ export default function ExpenseList({ expenses, onEdit, onDelete }: ExpenseListP
                 style={{ backgroundColor: category?.color ?? '#6b7280' }}
               />
               <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-800 truncate">{expense.title}</p>
+                <p className="text-sm font-medium text-gray-800 truncate">{expense.title}</p>
                 {expense.description && (
                   <p className="text-xs text-gray-500 truncate">{expense.description}</p>
                 )}
@@ -53,6 +54,12 @@ export default function ExpenseList({ expenses, onEdit, onDelete }: ExpenseListP
               <span className="text-sm font-semibold text-gray-800">
                 {formatCurrency(expense.amount)}
               </span>
+              <button
+                onClick={() => onRepeat(expense)}
+                className="p-1.5 text-gray-400 hover:text-green-500"
+              >
+                <Copy size={14} />
+              </button>
               <button
                 onClick={() => onEdit(expense)}
                 className="p-1.5 text-gray-400 hover:text-blue-500"

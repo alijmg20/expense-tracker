@@ -81,6 +81,17 @@ export default function Expenses() {
     setEditingExpense(undefined);
   };
 
+  const handleRepeat = (expense: Expense) => {
+    const repeated: Expense = {
+      ...expense,
+      id: undefined,
+      date: new Date(),
+      createdAt: new Date(),
+    };
+    setEditingExpense(repeated);
+    setShowForm(true);
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
@@ -156,6 +167,7 @@ export default function Expenses() {
         expenses={filteredExpenses}
         onEdit={handleEdit}
         onDelete={(id) => setDeletingExpenseId(id)}
+        onRepeat={handleRepeat}
       />
 
       {showForm && (

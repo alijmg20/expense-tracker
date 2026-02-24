@@ -44,24 +44,12 @@ export default function Settings() {
         await db.expenses.clear();
         await db.monthlyBudgets.clear();
 
-        await db.categories.bulkAdd(data.categories.map((c: Record<string, unknown>) => {
-            const copy = { ...c };
-            delete copy.id;
-            return copy;
-        }));
+        await db.categories.bulkAdd(data.categories);
 
-        await db.expenses.bulkAdd(data.expenses.map((e: Record<string, unknown>) => {
-            const copy = { ...e };
-            delete copy.id;
-            return copy;
-        }));
+        await db.expenses.bulkAdd(data.expenses);
 
         if (data.monthlyBudgets) {
-            await db.monthlyBudgets.bulkAdd(data.monthlyBudgets.map((b: Record<string, unknown>) => {
-                const copy = { ...b };
-                delete copy.id;
-                return copy;
-            }));
+          await db.monthlyBudgets.bulkAdd(data.monthlyBudgets);
         }
       });
 

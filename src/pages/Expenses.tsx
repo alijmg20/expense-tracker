@@ -15,7 +15,7 @@ export default function Expenses() {
   const [showForm, setShowForm] = useState(false);
   const [editingExpense, setEditingExpense] = useState<Expense | undefined>();
   const [deletingExpenseId, setDeletingExpenseId] = useState<number | null>(null);
-
+  const [isRepeating, setIsRepeating] = useState(false);
   const now = new Date();
   const [month, setMonth] = useState(now.getMonth());
   const [year, setYear] = useState(now.getFullYear());
@@ -79,6 +79,7 @@ export default function Expenses() {
   const handleClose = () => {
     setShowForm(false);
     setEditingExpense(undefined);
+    setIsRepeating(false);
   };
 
   const handleRepeat = (expense: Expense) => {
@@ -89,6 +90,7 @@ export default function Expenses() {
       createdAt: new Date(),
     };
     setEditingExpense(repeated);
+    setIsRepeating(true);
     setShowForm(true);
   };
 
@@ -175,6 +177,7 @@ export default function Expenses() {
           onSubmit={handleSubmit}
           onClose={handleClose}
           initialData={editingExpense}
+          isRepeat={isRepeating}
         />
       )}
 

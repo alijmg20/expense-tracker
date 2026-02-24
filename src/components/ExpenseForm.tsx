@@ -7,9 +7,10 @@ interface ExpenseFormProps {
   onSubmit: (data: Omit<Expense, 'id' | 'createdAt'>) => void;
   onClose: () => void;
   initialData?: Expense;
+  isRepeat?: boolean;
 }
 
-export default function ExpenseForm({ onSubmit, onClose, initialData }: ExpenseFormProps) {
+export default function ExpenseForm({ onSubmit, onClose, initialData, isRepeat }: ExpenseFormProps) {
   const { categories } = useCategories();
    const [title, setTitle] = useState(initialData?.title ?? '');
   const [description, setDescription] = useState(initialData?.description ?? '');
@@ -41,7 +42,7 @@ export default function ExpenseForm({ onSubmit, onClose, initialData }: ExpenseF
       <div className="bg-white w-full rounded-t-2xl p-5 animate-slide-up max-h-[85vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">
-            {initialData ? 'Editar Gasto' : 'Nuevo Gasto'}
+            {isRepeat ? 'Repetir Gasto' : initialData ? 'Editar Gasto' : 'Nuevo Gasto'}
           </h2>
           <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600">
             <X size={20} />
@@ -113,7 +114,7 @@ export default function ExpenseForm({ onSubmit, onClose, initialData }: ExpenseF
             type="submit"
             className="w-full bg-blue-500 text-white py-3 rounded-lg font-medium text-sm hover:bg-blue-600 transition-colors mt-2"
           >
-            {initialData ? 'Guardar Cambios' : 'Agregar Gasto'}
+            {isRepeat ? 'Agregar Copia' : initialData ? 'Guardar Cambios' : 'Agregar Gasto'}
           </button>
         </form>
       </div>

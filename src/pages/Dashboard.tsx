@@ -192,7 +192,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {prevMonthExpenses.length > 0 && (
+      {monthExpenses.length > 0 && (
         <div className="bg-white rounded-xl border border-gray-100 p-4 mt-4">
           <span className="text-xs text-gray-400 block mb-3">Últimos gastos</span>
           <div className="flex flex-col gap-3">

@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import { useExpenses } from '../hooks/useExpenses';
 import { useCategories } from '../hooks/useCategories';
 import ExpenseForm from '../components/ExpenseForm';
 import ExpenseList from '../components/ExpenseList';
 import MonthFilter from '../components/MonthFilter';
+import ConfirmDialog from '../components/ConfirmDialog';
 import { formatCurrency, getMonthRange } from '../utils/dateUtils';
 import type { Expense } from '../types';
-import ConfirmDialog from '../components/ConfirmDialog';
 
 export default function Expenses() {
   const { expenses, addExpense, updateExpense, deleteExpense } = useExpenses();
@@ -20,16 +20,40 @@ export default function Expenses() {
   const [month, setMonth] = useState(now.getMonth());
   const [year, setYear] = useState(now.getFullYear());
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
 
-  const { start, end } = getMonthRange(year, month);
+  const isRangeActive = dateFrom !== '' || dateTo !== '';
+
   const filteredExpenses = expenses.filter((e) => {
     const d = new Date(e.date);
-    const inMonth = d >= start && d <= end;
+
+    let inDate: boolean;
+    if (isRangeActive) {
+      const from = dateFrom ? new Date(dateFrom + 'T00:00:00') : new Date(0);
+      const to = dateTo ? new Date(dateTo + 'T23:59:59') : new Date(9999, 11, 31);
+      inDate = d >= from && d <= to;
+    } else {
+      const { start, end } = getMonthRange(year, month);
+      inDate = d >= start && d <= end;
+    }
+
     const inCategory = selectedCategoryId === null || e.categoryId === selectedCategoryId;
-    return inMonth && inCategory;
+    return inDate && inCategory;
   });
 
   const total = filteredExpenses.reduce((sum, e) => sum + e.amount, 0);
+
+  const hasActiveFilters = isRangeActive || selectedCategoryId !== null;
+
+  const handleClearFilters = () => {
+    const today = new Date();
+    setMonth(today.getMonth());
+    setYear(today.getFullYear());
+    setSelectedCategoryId(null);
+    setDateFrom('');
+    setDateTo('');
+  };
 
   const handleSubmit = async (data: Omit<Expense, 'id' | 'createdAt'>) => {
     if (editingExpense?.id) {
@@ -69,22 +93,55 @@ export default function Expenses() {
         </button>
       </div>
 
-      <MonthFilter
-        month={month}
-        year={year}
-        onChange={(m, y) => { setMonth(m); setYear(y); }}
-      />
+      {!isRangeActive && (
+        <MonthFilter
+          month={month}
+          year={year}
+          onChange={(m, y) => { setMonth(m); setYear(y); }}
+        />
+      )}
+
+      <div className="flex gap-2 mb-3">
+        <div className="flex-1">
+          <label className="block text-xs text-gray-400 mb-1">Desde</label>
+          <input
+            type="date"
+            value={dateFrom}
+            onChange={(e) => setDateFrom(e.target.value)}
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+        <div className="flex-1">
+          <label className="block text-xs text-gray-400 mb-1">Hasta</label>
+          <input
+            type="date"
+            value={dateTo}
+            onChange={(e) => setDateTo(e.target.value)}
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+      </div>
 
       <select
         value={selectedCategoryId ?? ''}
         onChange={(e) => setSelectedCategoryId(e.target.value ? Number(e.target.value) : null)}
-        className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4"
+        className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-3"
       >
         <option value="">Todas las categorías</option>
         {categories.map((cat) => (
           <option key={cat.id} value={cat.id}>{cat.name}</option>
         ))}
       </select>
+
+      {hasActiveFilters && (
+        <button
+          onClick={handleClearFilters}
+          className="flex items-center gap-1.5 text-xs text-blue-500 font-medium mb-3 hover:text-blue-600 transition-colors"
+        >
+          <X size={14} />
+          Limpiar filtros
+        </button>
+      )}
 
       <div className="flex items-center justify-between mb-3 px-1">
         <span className="text-xs text-gray-400">

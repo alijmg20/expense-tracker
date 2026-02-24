@@ -23,6 +23,18 @@ export default function Dashboard() {
   });
 
   const totalMonth = monthExpenses.reduce((sum, e) => sum + e.amount, 0);
+  
+  const prevMonth = month === 0 ? 11 : month - 1;
+  const prevYear = month === 0 ? year - 1 : year;
+  const { start: prevStart, end: prevEnd } = getMonthRange(prevYear, prevMonth);
+  const prevMonthExpenses = expenses.filter((e) => {
+    const d = new Date(e.date);
+    return d >= prevStart && d <= prevEnd;
+  });
+  const totalPrevMonth = prevMonthExpenses.reduce((sum, e) => sum + e.amount, 0);
+  const monthChange = totalPrevMonth > 0
+    ? Math.round(((totalMonth - totalPrevMonth) / totalPrevMonth) * 100)
+    : null;
 
   const yearExpenses = expenses.filter((e) => {
     const d = new Date(e.date);
@@ -102,6 +114,19 @@ export default function Dashboard() {
         <div className="bg-white rounded-xl border border-gray-100 p-4">
           <span className="text-xs text-gray-400">Total del mes</span>
           <p className="text-lg font-bold text-gray-800 mt-1">{formatCurrency(totalMonth)}</p>
+          {monthChange !== null && (
+            <div className="flex items-center gap-1 mt-1">
+              <span className={`text-[11px] font-medium px-1.5 py-0.5 rounded-full ${
+                monthChange > 0
+                  ? 'bg-red-50 text-red-500'
+                  : monthChange < 0
+                  ? 'bg-green-50 text-green-600'
+                  : 'bg-gray-50 text-gray-400'
+              }`}>
+                {monthChange > 0 ? '+' : ''}{monthChange}%
+              </span>
+            </div>
+          )}
         </div>
         <div className="bg-white rounded-xl border border-gray-100 p-4">
           <span className="text-xs text-gray-400">Total del año</span>

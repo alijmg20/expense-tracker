@@ -39,7 +39,10 @@ export default function ExpenseList({ expenses, onEdit, onDelete }: ExpenseListP
                 style={{ backgroundColor: category?.color ?? '#6b7280' }}
               />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-800 truncate">{expense.title}</p>
+              <p className="text-sm font-medium text-gray-800 truncate">{expense.title}</p>
+                {expense.description && (
+                  <p className="text-xs text-gray-500 truncate">{expense.description}</p>
+                )}
                 <p className="text-xs text-gray-400">
                   {category?.name ?? 'Sin categoría'} · {formatDate(expense.date)}
                 </p>

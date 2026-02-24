@@ -191,6 +191,34 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      {prevMonthExpenses.length > 0 && (
+        <div className="bg-white rounded-xl border border-gray-100 p-4 mt-4">
+          <span className="text-xs text-gray-400 block mb-3">Últimos gastos</span>
+          <div className="flex flex-col gap-3">
+            {monthExpenses.slice(0, 3).map((expense) => {
+              const category = categories.find((c) => c.id === expense.categoryId);
+              return (
+                <div key={expense.id} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full shrink-0"
+                      style={{ backgroundColor: category?.color ?? '#6b7280' }}
+                    />
+                    <div className="min-w-0">
+                      <p className="text-sm text-gray-700 truncate">{expense.title}</p>
+                      <p className="text-[11px] text-gray-400">{category?.name}</p>
+                    </div>
+                  </div>
+                  <span className="text-sm font-medium text-gray-800 shrink-0 ml-3">
+                    {formatCurrency(expense.amount)}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -20,7 +20,7 @@ export default function ExpenseList({ expenses, onEdit, onDelete, onRepeat }: Ex
   if (expenses.length === 0) {
     return (
       <div className="text-center py-12 text-gray-400">
-        <p className="text-sm">No hay gastos registrados</p>
+        <p className="text-base">No hay gastos registrados</p>
       </div>
     );
   }
@@ -40,18 +40,18 @@ export default function ExpenseList({ expenses, onEdit, onDelete, onRepeat }: Ex
                 style={{ backgroundColor: category?.color ?? '#6b7280' }}
               />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-800 truncate">{expense.title}</p>
+                <p className="text-base font-medium text-gray-800 truncate">{expense.title}</p>
                 {expense.description && (
-                  <p className="text-xs text-gray-500 truncate">{expense.description}</p>
+                  <p className="text-sm text-gray-500 truncate">{expense.description}</p>
                 )}
-                <p className="text-xs text-gray-400">
+                <p className="text-sm text-gray-400">
                   {category?.name ?? 'Sin categoría'} · {formatDate(expense.date)}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 shrink-0 ml-3">
-              <span className="text-sm font-semibold text-gray-800">
+              <span className="text-base font-semibold text-gray-800">
                 {formatCurrency(expense.amount)}
               </span>
               <button

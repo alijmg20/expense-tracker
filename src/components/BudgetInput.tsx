@@ -52,7 +52,7 @@ export default function BudgetInput({ currentBudget, onSave }: BudgetInputProps)
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm text-gray-700">
+      <span className="text-base text-gray-700">
         {currentBudget ? formatCurrency(currentBudget) : 'Sin definir'}
       </span>
       <button onClick={handleEdit} className="p-1 text-gray-400 hover:text-blue-500">

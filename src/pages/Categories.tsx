@@ -43,7 +43,7 @@ export default function Categories() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Categorías</h2>
+        <h2 className="text-xl font-bold">Categorías</h2>
         <button
           onClick={() => setShowForm(true)}
           className="bg-blue-500 text-white p-2.5 rounded-full shadow-lg hover:bg-blue-600 transition-colors"
@@ -54,7 +54,7 @@ export default function Categories() {
 
       {fixedCategories.length > 0 && (
         <div className="mb-6">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+          <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">
             Gastos Fijos
           </h3>
           <div className="flex flex-col gap-2">
@@ -72,7 +72,7 @@ export default function Categories() {
 
       {variableCategories.length > 0 && (
         <div>
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+          <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">
             Gastos Variables
           </h3>
           <div className="flex flex-col gap-2">
@@ -124,7 +124,7 @@ function CategoryItem({
           className="w-3 h-3 rounded-full"
           style={{ backgroundColor: category.color }}
         />
-        <span className="text-sm font-medium text-gray-800">{category.name}</span>
+        <span className="text-base font-medium text-gray-800">{category.name}</span>
       </div>
       <div className="flex items-center gap-2">
         <button

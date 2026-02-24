@@ -97,7 +97,7 @@ export default function Expenses() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Gastos</h2>
+        <h2 className="text-xl font-bold">Gastos</h2>
         <button
           onClick={() => setShowForm(true)}
           className="bg-blue-500 text-white p-2.5 rounded-full shadow-lg hover:bg-blue-600 transition-colors"
@@ -157,10 +157,10 @@ export default function Expenses() {
       )}
 
       <div className="flex items-center justify-between mb-3 px-1">
-        <span className="text-xs text-gray-400">
+        <span className="text-sm text-gray-400">
           {filteredExpenses.length} gasto{filteredExpenses.length !== 1 ? 's' : ''}
         </span>
-        <span className="text-sm font-semibold text-gray-700">
+        <span className="text-base font-semibold text-gray-700">
           Total: {formatCurrency(total)}
         </span>
       </div>

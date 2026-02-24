@@ -29,7 +29,7 @@ export default function MonthFilter({ month, year, onChange }: MonthFilterProps)
       <button onClick={handlePrev} className="p-1 text-gray-400 hover:text-gray-600">
         <ChevronLeft size={20} />
       </button>
-      <span className="text-sm font-semibold text-gray-800 capitalize">
+      <span className="text-base font-semibold text-gray-800 capitalize">
         {getMonthName(month)} {year}
       </span>
       <button onClick={handleNext} className="p-1 text-gray-400 hover:text-gray-600">

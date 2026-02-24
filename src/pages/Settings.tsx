@@ -44,12 +44,12 @@ export default function Settings() {
         await db.expenses.clear();
         await db.monthlyBudgets.clear();
 
-        await db.categories.bulkAdd(data.categories);
+        await db.categories.bulkPut(data.categories);
 
-        await db.expenses.bulkAdd(data.expenses);
+        await db.expenses.bulkPut(data.expenses);
 
         if (data.monthlyBudgets) {
-          await db.monthlyBudgets.bulkAdd(data.monthlyBudgets);
+          await db.monthlyBudgets.bulkPut(data.monthlyBudgets);
         }
       });
 

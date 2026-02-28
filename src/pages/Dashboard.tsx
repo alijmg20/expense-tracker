@@ -82,22 +82,22 @@ export default function Dashboard() {
         onChange={(m, y) => { setMonth(m); setYear(y); }}
       />
 
-      <div className="bg-white rounded-xl border border-gray-100 p-4 mb-4">
+      <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-4 mb-4">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-sm text-gray-400">Presupuesto mensual</span>
+          <span className="text-sm text-gray-400 dark:text-gray-500">Presupuesto mensual</span>
         </div>
         <BudgetInput currentBudget={budget?.totalBudget ?? null} onSave={setBudget} />
 
         {budgetAmount > 0 && (
           <div className="mt-3">
             <div className="flex items-center justify-between text-sm mb-1">
-              <span className="text-gray-500">{usagePercent}% usado</span>
-              <span className={remaining >= 0 ? 'text-green-600' : 'text-red-500'}>
+              <span className="text-gray-500 dark:text-gray-400">{usagePercent}% usado</span>
+              <span className={remaining >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}>
                 {remaining >= 0 ? 'Restante: ' : 'Excedido: '}
                 {formatCurrency(Math.abs(remaining))}
               </span>
             </div>
-            <div className="w-full bg-gray-100 rounded-full h-2">
+            <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2">
               <div
                 className={`h-2 rounded-full transition-all ${
                   usagePercent > 100 ? 'bg-red-500' :
@@ -111,35 +111,35 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className="bg-white rounded-xl border border-gray-100 p-4">
-          <span className="text-sm text-gray-400">Total del mes</span>
-          <p className="text-xl font-bold text-gray-800 mt-1">{formatCurrency(totalMonth)}</p>
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-4">
+          <span className="text-sm text-gray-400 dark:text-gray-500">Total del mes</span>
+          <p className="text-xl font-bold text-gray-800 dark:text-gray-200 mt-1">{formatCurrency(totalMonth)}</p>
           {monthChange !== null && (
             <div className="flex items-center gap-1 mt-1">
               <span className={`text-[11px] font-medium px-1.5 py-0.5 rounded-full ${
                 monthChange > 0
-                  ? 'bg-red-50 text-red-500'
+                  ? 'bg-red-50 dark:bg-red-950 text-red-500 dark:text-red-400'
                   : monthChange < 0
-                  ? 'bg-green-50 text-green-600'
-                  : 'bg-gray-50 text-gray-400'
+                  ? 'bg-green-50 dark:bg-green-950 text-green-600 dark:text-green-400'
+                  : 'bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500'
               }`}>
                 {monthChange > 0 ? '+' : ''}{monthChange}%
               </span>
             </div>
           )}
         </div>
-        <div className="bg-white rounded-xl border border-gray-100 p-4">
-          <span className="text-sm text-gray-400">Total del año</span>
-          <p className="text-xl font-bold text-gray-800 mt-1">{formatCurrency(totalYear)}</p>
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-4">
+          <span className="text-sm text-gray-400 dark:text-gray-500">Total del año</span>
+          <p className="text-xl font-bold text-gray-800 dark:text-gray-200 mt-1">{formatCurrency(totalYear)}</p>
         </div>
-        <div className="bg-white rounded-xl border border-gray-100 p-4">
-          <span className="text-sm text-gray-400">Promedio diario</span>
-          <p className="text-xl font-bold text-gray-800 mt-1">{formatCurrency(dailyAverage)}</p>
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-4">
+          <span className="text-sm text-gray-400 dark:text-gray-500">Promedio diario</span>
+          <p className="text-xl font-bold text-gray-800 dark:text-gray-200 mt-1">{formatCurrency(dailyAverage)}</p>
         </div>
-        <div className="bg-white rounded-xl border border-gray-100 p-4">
-          <span className="text-sm text-gray-400">Proyección mes</span>
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-4">
+          <span className="text-sm text-gray-400 dark:text-gray-500">Proyección mes</span>
           <p className={`text-xl font-bold mt-1 ${
-            budgetAmount > 0 && projected > budgetAmount ? 'text-red-500' : 'text-gray-800'
+            budgetAmount > 0 && projected > budgetAmount ? 'text-red-500 dark:text-red-400' : 'text-gray-800 dark:text-gray-200'
           }`}>
             {formatCurrency(projected)}
           </p>
@@ -147,17 +147,17 @@ export default function Dashboard() {
       </div>
 
       {(fixedTotal > 0 || variableTotal > 0) && (
-        <div className="bg-white rounded-xl border border-gray-100 p-4 mb-4">
-          <span className="text-sm text-gray-400 block mb-3">Fijo vs Variable</span>
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-4 mb-4">
+          <span className="text-sm text-gray-400 dark:text-gray-500 block mb-3">Fijo vs Variable</span>
           <div className="flex gap-2 mb-2">
             <div className="h-3 rounded-full bg-blue-500" style={{ flex: fixedTotal }} />
             <div className="h-3 rounded-full bg-emerald-500" style={{ flex: variableTotal }} />
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-gray-600">
+            <span className="text-gray-600 dark:text-gray-400">
               Fijo: {formatCurrency(fixedTotal)} ({totalMonth > 0 ? Math.round((fixedTotal / totalMonth) * 100) : 0}%)
             </span>
-            <span className="text-gray-600">
+            <span className="text-gray-600 dark:text-gray-400">
               Variable: {formatCurrency(variableTotal)} ({totalMonth > 0 ? Math.round((variableTotal / totalMonth) * 100) : 0}%)
             </span>
           </div>
@@ -165,8 +165,8 @@ export default function Dashboard() {
       )}
 
       {expensesByCategory.length > 0 && (
-        <div className="bg-white rounded-xl border border-gray-100 p-4">
-          <span className="text-sm text-gray-400 block mb-3">Gasto por categoría</span>
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-4">
+          <span className="text-sm text-gray-400 dark:text-gray-500 block mb-3">Gasto por categoría</span>
           <div className="flex flex-col gap-3">
             {expensesByCategory.map((cat) => {
               const percent = totalMonth > 0 ? Math.round((cat.total / totalMonth) * 100) : 0;
@@ -175,11 +175,11 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-2">
                       <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: cat.color }} />
-                      <span className="text-base text-gray-700">{cat.name}</span>
+                      <span className="text-base text-gray-700 dark:text-gray-300">{cat.name}</span>
                     </div>
-                    <span className="text-base font-medium text-gray-800">{formatCurrency(cat.total)}</span>
+                    <span className="text-base font-medium text-gray-800 dark:text-gray-200">{formatCurrency(cat.total)}</span>
                   </div>
-                  <div className="w-full bg-gray-100 rounded-full h-1.5">
+                  <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-1.5">
                     <div
                       className="h-1.5 rounded-full"
                       style={{ width: `${percent}%`, backgroundColor: cat.color }}
@@ -193,8 +193,8 @@ export default function Dashboard() {
       )}
 
       {monthExpenses.length > 0 && (
-        <div className="bg-white rounded-xl border border-gray-100 p-4 mt-4">
-          <span className="text-sm text-gray-400 block mb-3">Últimos gastos</span>
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-4 mt-4">
+          <span className="text-sm text-gray-400 dark:text-gray-500 block mb-3">Últimos gastos</span>
           <div className="flex flex-col gap-3">
             {monthExpenses.slice(0, 3).map((expense) => {
               const category = categories.find((c) => c.id === expense.categoryId);
@@ -206,11 +206,11 @@ export default function Dashboard() {
                       style={{ backgroundColor: category?.color ?? '#6b7280' }}
                     />
                     <div className="min-w-0">
-                      <p className="text-base text-gray-700 truncate">{expense.title}</p>
-                      <p className="text-sm text-gray-400">{category?.name}</p>
+                      <p className="text-base text-gray-700 dark:text-gray-300 truncate">{expense.title}</p>
+                      <p className="text-sm text-gray-400 dark:text-gray-500">{category?.name}</p>
                     </div>
                   </div>
-                  <span className="text-base font-medium text-gray-800 shrink-0 ml-3">
+                  <span className="text-base font-medium text-gray-800 dark:text-gray-200 shrink-0 ml-3">
                     {formatCurrency(expense.amount)}
                   </span>
                 </div>

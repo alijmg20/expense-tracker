@@ -25,14 +25,14 @@ export default function MonthFilter({ month, year, onChange }: MonthFilterProps)
   };
 
   return (
-    <div className="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-gray-100 mb-4">
-      <button onClick={handlePrev} className="p-1 text-gray-400 hover:text-gray-600">
+    <div className="flex items-center justify-between bg-white dark:bg-gray-900 rounded-xl px-4 py-3 border border-gray-100 dark:border-gray-800 mb-4">
+      <button onClick={handlePrev} className="p-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
         <ChevronLeft size={20} />
       </button>
-      <span className="text-base font-semibold text-gray-800 capitalize">
+      <span className="text-base font-semibold text-gray-800 dark:text-gray-200 capitalize">
         {getMonthName(month)} {year}
       </span>
-      <button onClick={handleNext} className="p-1 text-gray-400 hover:text-gray-600">
+      <button onClick={handleNext} className="p-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
         <ChevronRight size={20} />
       </button>
     </div>

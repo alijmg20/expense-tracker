@@ -116,21 +116,21 @@ export default function Expenses() {
 
       <div className="flex gap-2 mb-3">
         <div className="flex-1">
-          <label className="block text-xs text-gray-400 mb-1">Desde</label>
+          <label className="block text-xs text-gray-400 dark:text-gray-500 mb-1">Desde</label>
           <input
             type="date"
             value={dateFrom}
             onChange={(e) => setDateFrom(e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
         <div className="flex-1">
-          <label className="block text-xs text-gray-400 mb-1">Hasta</label>
+          <label className="block text-xs text-gray-400 dark:text-gray-500 mb-1">Hasta</label>
           <input
             type="date"
             value={dateTo}
             onChange={(e) => setDateTo(e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
       </div>
@@ -138,7 +138,7 @@ export default function Expenses() {
       <select
         value={selectedCategoryId ?? ''}
         onChange={(e) => setSelectedCategoryId(e.target.value ? Number(e.target.value) : null)}
-        className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-3"
+        className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-3"
       >
         <option value="">Todas las categorías</option>
         {categories.map((cat) => (
@@ -149,7 +149,7 @@ export default function Expenses() {
       {hasActiveFilters && (
         <button
           onClick={handleClearFilters}
-          className="flex items-center gap-1.5 text-xs text-blue-500 font-medium mb-3 hover:text-blue-600 transition-colors"
+          className="flex items-center gap-1.5 text-xs text-blue-500 dark:text-blue-400 font-medium mb-3 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
         >
           <X size={14} />
           Limpiar filtros
@@ -157,10 +157,10 @@ export default function Expenses() {
       )}
 
       <div className="flex items-center justify-between mb-3 px-1">
-        <span className="text-sm text-gray-400">
+        <span className="text-sm text-gray-400 dark:text-gray-500">
           {filteredExpenses.length} gasto{filteredExpenses.length !== 1 ? 's' : ''}
         </span>
-        <span className="text-base font-semibold text-gray-700">
+        <span className="text-base font-semibold text-gray-700 dark:text-gray-300">
           Total: {formatCurrency(total)}
         </span>
       </div>

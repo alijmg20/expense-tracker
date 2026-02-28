@@ -19,7 +19,7 @@ export default function ExpenseList({ expenses, onEdit, onDelete, onRepeat }: Ex
 
   if (expenses.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-400">
+      <div className="text-center py-12 text-gray-400 dark:text-gray-500">
         <p className="text-base">No hay gastos registrados</p>
       </div>
     );
@@ -32,7 +32,7 @@ export default function ExpenseList({ expenses, onEdit, onDelete, onRepeat }: Ex
         return (
           <div
             key={expense.id}
-            className="bg-white rounded-xl p-4 flex items-center justify-between border border-gray-100"
+            className="bg-white dark:bg-gray-900 rounded-xl p-4 flex items-center justify-between border border-gray-100 dark:border-gray-800"
           >
             <div className="flex items-center gap-3 flex-1 min-w-0">
               <div
@@ -40,35 +40,35 @@ export default function ExpenseList({ expenses, onEdit, onDelete, onRepeat }: Ex
                 style={{ backgroundColor: category?.color ?? '#6b7280' }}
               />
               <div className="flex-1 min-w-0">
-                <p className="text-base font-medium text-gray-800 truncate">{expense.title}</p>
+                <p className="text-base font-medium text-gray-800 dark:text-gray-200 truncate">{expense.title}</p>
                 {expense.description && (
-                  <p className="text-sm text-gray-500 truncate">{expense.description}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{expense.description}</p>
                 )}
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-gray-400 dark:text-gray-500">
                   {category?.name ?? 'Sin categoría'} · {formatDate(expense.date)}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 shrink-0 ml-3">
-              <span className="text-base font-semibold text-gray-800">
+              <span className="text-base font-semibold text-gray-800 dark:text-gray-200">
                 {formatCurrency(expense.amount)}
               </span>
               <button
                 onClick={() => onRepeat(expense)}
-                className="p-1.5 text-gray-400 hover:text-green-500"
+                className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-green-500"
               >
                 <Copy size={14} />
               </button>
               <button
                 onClick={() => onEdit(expense)}
-                className="p-1.5 text-gray-400 hover:text-blue-500"
+                className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-500"
               >
                 <Pencil size={14} />
               </button>
               <button
                 onClick={() => onDelete(expense.id!)}
-                className="p-1.5 text-gray-400 hover:text-red-500"
+                className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-500"
               >
                 <Trash2 size={14} />
               </button>

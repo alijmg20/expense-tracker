@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  background-color: #f9fafb;
+}
+
+.dark {
+  color-scheme: dark;
+  background-color: #030712;
+}
+
 @keyframes slide-up {
   from {
     transform: translateY(100%);

@@ -54,7 +54,7 @@ export default function Categories() {
 
       {fixedCategories.length > 0 && (
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">
+          <h3 className="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
             Gastos Fijos
           </h3>
           <div className="flex flex-col gap-2">
@@ -72,7 +72,7 @@ export default function Categories() {
 
       {variableCategories.length > 0 && (
         <div>
-          <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">
+          <h3 className="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
             Gastos Variables
           </h3>
           <div className="flex flex-col gap-2">
@@ -118,24 +118,24 @@ function CategoryItem({
   onDelete: (id: number) => void;
 }) {
   return (
-    <div className="bg-white rounded-xl p-4 flex items-center justify-between border border-gray-100">
+    <div className="bg-white dark:bg-gray-900 rounded-xl p-4 flex items-center justify-between border border-gray-100 dark:border-gray-800">
       <div className="flex items-center gap-3">
         <div
           className="w-3 h-3 rounded-full"
           style={{ backgroundColor: category.color }}
         />
-        <span className="text-base font-medium text-gray-800">{category.name}</span>
+        <span className="text-base font-medium text-gray-800 dark:text-gray-200">{category.name}</span>
       </div>
       <div className="flex items-center gap-2">
         <button
           onClick={() => onEdit(category)}
-          className="p-1.5 text-gray-400 hover:text-blue-500"
+          className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-500"
         >
           <Pencil size={14} />
         </button>
         <button
           onClick={() => onDelete(category.id!)}
-          className="p-1.5 text-gray-400 hover:text-red-500"
+          className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-500"
         >
           <Trash2 size={14} />
         </button>

@@ -80,10 +80,12 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isRepeat }
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Monto</label>
             <input
               type="number"
+              inputMode="decimal"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              placeholder="0"
+              placeholder="0.00"
               min="0"
+              step="any"
               className={inputClass}
             />
           </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Download, Upload, AlertTriangle, Sun, Moon, Monitor, Smartphone, CircleCheck } from 'lucide-react';
+import { Download, Upload, AlertTriangle, Sun, Moon, Monitor, Smartphone, CircleCheck, EllipsisVertical } from 'lucide-react';
 import { db } from '../db/database';
 import type { Theme } from '../hooks/useTheme';
 import { useInstallPrompt } from '../hooks/useInstallPrompt';
@@ -11,7 +11,7 @@ interface SettingsProps {
 
 export default function Settings({ theme, setTheme }: SettingsProps) {
   const [importStatus, setImportStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const { canInstall, isInstalled, install } = useInstallPrompt();
+  const { canInstall, isInstalled, isIOS, install } = useInstallPrompt();
 
   const handleExport = async () => {
     const categories = await db.categories.toArray();
@@ -103,37 +103,71 @@ export default function Settings({ theme, setTheme }: SettingsProps) {
           </div>
         </div>
 
-        {(canInstall || isInstalled) && (
-          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-4">
-            <div className="flex items-center gap-3 mb-3">
-              <img
-                src={`${import.meta.env.BASE_URL}icon-192.png`}
-                alt="App"
-                className="w-10 h-10 rounded-lg shrink-0"
-              />
-              <div>
-                <h3 className="text-sm font-medium text-gray-800 dark:text-gray-200">Gastos Personales</h3>
-                <p className="text-xs text-gray-400 dark:text-gray-500">
-                  {isInstalled ? 'App instalada en tu dispositivo' : 'Instalar en tu dispositivo'}
-                </p>
-              </div>
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-4">
+          <div className="flex items-center gap-3 mb-3">
+            <img
+              src={`${import.meta.env.BASE_URL}icon-192.png`}
+              alt="App"
+              className="w-10 h-10 rounded-lg shrink-0"
+            />
+            <div>
+              <h3 className="text-sm font-medium text-gray-800 dark:text-gray-200">Gastos Personales</h3>
+              <p className="text-xs text-gray-400 dark:text-gray-500">
+                {isInstalled ? 'App instalada en tu dispositivo' : 'Instalar en tu dispositivo'}
+              </p>
             </div>
-            {isInstalled ? (
-              <div className="flex items-center justify-center gap-2 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950 py-2.5 rounded-lg text-sm font-medium">
-                <CircleCheck size={16} />
-                Instalada
-              </div>
-            ) : (
-              <button
-                onClick={install}
-                className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors w-full justify-center"
-              >
-                <Smartphone size={16} />
-                Instalar aplicación
-              </button>
-            )}
           </div>
-        )}
+
+          {isInstalled ? (
+            <div className="flex items-center justify-center gap-2 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950 py-2.5 rounded-lg text-sm font-medium">
+              <CircleCheck size={16} />
+              Instalada
+            </div>
+          ) : canInstall ? (
+            <button
+              onClick={install}
+              className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors w-full justify-center"
+            >
+              <Smartphone size={16} />
+              Instalar aplicación
+            </button>
+          ) : isIOS ? (
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
+              <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">Cómo instalar:</p>
+              <ol className="text-xs text-gray-500 dark:text-gray-400 space-y-2">
+                <li className="flex items-start gap-2">
+                  <span className="bg-blue-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
+                  <span>
+                    Toca el botón compartir
+                    <svg className="inline-block mx-1 -mt-0.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="8 7 12 3 16 7"/><line x1="12" y1="3" x2="12" y2="15"/><path d="M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"/></svg>
+                    en la barra del navegador
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="bg-blue-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
+                  <span>Selecciona <strong className="text-gray-700 dark:text-gray-200">"Añadir a inicio"</strong></span>
+                </li>
+              </ol>
+            </div>
+          ) : (
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
+              <p className="text-xs font-medium text-gray-600 dark:text-gray-300 mb-2">Cómo instalar:</p>
+              <ol className="text-xs text-gray-500 dark:text-gray-400 space-y-2">
+                <li className="flex items-start gap-2">
+                  <span className="bg-blue-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
+                  <span>
+                    Abre el menú del navegador
+                    <EllipsisVertical size={14} className="inline-block mx-0.5 -mt-0.5" />
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="bg-blue-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
+                  <span>Selecciona <strong className="text-gray-700 dark:text-gray-200">"Instalar aplicación"</strong></span>
+                </li>
+              </ol>
+            </div>
+          )}
+        </div>
 
         <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 p-4">
           <h3 className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">Exportar datos</h3>

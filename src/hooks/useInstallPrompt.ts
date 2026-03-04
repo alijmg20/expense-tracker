@@ -5,12 +5,19 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
+function getIsIOS(): boolean {
+  return /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
 export function useInstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(
     window.matchMedia('(display-mode: standalone)').matches ||
-    (navigator as any).standalone === true
+    (navigator as unknown as { standalone?: boolean }).standalone === true
   );
+
+  const isIOS = getIsIOS();
 
   useEffect(() => {
     if (isInstalled) return;
@@ -42,5 +49,5 @@ export function useInstallPrompt() {
     setDeferredPrompt(null);
   };
 
-  return { canInstall: !!deferredPrompt, isInstalled, install };
+  return { canInstall: !!deferredPrompt, isInstalled, isIOS, install };
 }
